@@ -1,5 +1,5 @@
 from lib.bot.bot import bot
 
-VERSION = "0.1" #Creating bot-base
+VERSION = "0.2" #Creating our first commands 
 
 bot.run(VERSION)

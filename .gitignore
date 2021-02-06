@@ -1,4 +1,3 @@
 .env
 poetry.lock
 pyproject.toml
-/lib/bot/__pycahce__
