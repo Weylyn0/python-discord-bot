@@ -43,5 +43,6 @@ class Bot(BotBase):
       await ctx.send("Malformed Argument")
     else:
       await ctx.send("An error occured.")
+      raise error
     
 bot = Bot()

@@ -19,5 +19,19 @@ class Mod(Cog):
     await ctx.guild.ban(member, reason=reason)
     await ctx.send(f"{member} has banned from the server by {ctx.author.mention}")
 
+  @command(name="unban")
+  @guild_only()
+  @has_permissions(manage_guild=True)
+  async def cmd_unban(self, ctx, *, user:str):
+    name = user.split("#")[0].strip()
+    discriminator = user.split("#")[1]
+    bans = await ctx.guild.bans()
+    for entry in bans:
+      banned_user = entry.user
+      if banned_user.name == name and str(banned_user.discriminator) == discriminator:
+        await ctx.guild.unban(banned_user)
+        await ctx.send(f"{user}'s ban removed.")
+    await ctx.send("This user already does not banned.")
+
 def setup(bot):
   bot.add_cog(Mod(bot))
