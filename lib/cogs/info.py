@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from psutil import Process, virtual_memory
 
 from discord import Embed, Member, __version__ as discord_version
-from discord.ext.commands import Cog, command, guild_only
+from discord.ext.commands import Cog, command
 
 def utc_format(dt):
   return dt.strftime("%Y-%m-%d %H:%M:%S UTC")
@@ -39,7 +39,6 @@ class Info(Cog):
     await ctx.send(embed=embed)
 
   @command(name="serverinfo", aliases=["si"])
-  @guild_only()
   async def cmd_serverinfo(self, ctx):
     embed = Embed(
       title=f"{ctx.guild.name} Server Info",
