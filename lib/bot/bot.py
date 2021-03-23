@@ -1,13 +1,17 @@
+import os
+from datetime import datetime
+
+from discord import Intents #We are need to intents for getting members' and servers' detailed info. You can enable this on discord.com/developers/applications/<your_bot_id>/bot
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import CommandNotFound, MissingRequiredArgument, BadArgument
 
-from datetime import datetime
-import os
+
 
 class Bot(BotBase):
   def __init__(self):
     self.prefix = "!" #Bot Prefix
-    super().__init__(command_prefix=self.prefix)
+    self.banlist = [] #We will set this later
+    super().__init__(command_prefix=self.prefix, intents=Intents.all())
   
   #Loading our cogs
   def setup(self):
