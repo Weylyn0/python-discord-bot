@@ -3,7 +3,7 @@ from datetime import datetime
 
 from discord import Intents #We are need to intents for getting members' and servers' detailed info. You can enable this on discord.com/developers/applications/<your_bot_id>/bot
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import CommandNotFound, MissingRequiredArgument, BadArgument, Context
+from discord.ext.commands import  Context, CommandNotFound, MissingRequiredArgument, BadArgument, DisabledCommand, NotOwner
 
 class Bot(BotBase):
   def __init__(self):
@@ -48,10 +48,19 @@ class Bot(BotBase):
   async def on_command_error(self, ctx, error):
     if isinstance(error, CommandNotFound):
       return
+
     elif isinstance(error, MissingRequiredArgument):
       await ctx.send("Some required arguments are missing.")
+
     elif isinstance(error, BadArgument):
-      await ctx.send("Malformed Argument")
+      await ctx.send("Malformed argument usage.")
+    
+    elif isinstance(error, DisabledCommand):
+      await ctx.send("This command is disabled for now.")
+    
+    elif isinstance(error, NotOwner):
+      await ctx.send("You don't have permissions to do that.")
+
     else:
       await ctx.send("An error occured.")
       raise error
@@ -70,6 +79,7 @@ class Bot(BotBase):
         
       elif not self.is_ready():
         await ctx.send("I'm not ready to receive commands.")
+
       else:
         await self.invoke(ctx)
 

@@ -1,4 +1,5 @@
 from discord import User
+from discord.utils import get
 from discord.ext.commands import Cog, command, is_owner, Greedy
 
 class Owner(Cog):
@@ -26,6 +27,16 @@ class Owner(Cog):
         unbanned_users.append(target)
     self.bot.save_banlist()
     await ctx.send(", ".join(str(user) for user in unbanned_users) + " are unbanned.")
+  
+  @command(name="!toggle")
+  @is_owner()
+  async def cmd_owner_toggle(self, ctx, *, cmd:str):
+    if cmd:=get(self.bot.commands, name=cmd):
+      cmd.enabled = not cmd.enabled
+      state = " enabled." if cmd.enabled else " disabled."
+      await ctx.send(str(cmd) + state)
+    else:
+      await ctx.send("I did not find that command.")
 
 def setup(bot):
   bot.add_cog(Owner(bot))
